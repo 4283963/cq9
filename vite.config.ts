@@ -5,6 +5,11 @@ import { traeBadgePlugin } from 'vite-plugin-trae-solo-badge';
 
 // https://vite.dev/config/
 export default defineConfig({
+  resolve: {
+    alias: {
+      'shared': '/shared',
+    },
+  },
   plugins: [
     react({
       babel: {

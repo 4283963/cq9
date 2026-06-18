@@ -33,3 +33,6 @@ bin/
 obj/
 __pycache__/
 *.pyc
+
+# SQLite 数据目录
+.data/
