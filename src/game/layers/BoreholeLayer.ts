@@ -4,8 +4,9 @@ import {
   COLORS,
   BOREHOLE_WIDTH,
   CASING_THICKNESS,
-  GROUND_Y,
-  MAX_DEPTH,
+  getCasingTop,
+  getCasingBottom,
+  getInnerHalfWidth,
 } from '../constants';
 
 export class BoreholeLayer {
@@ -88,8 +89,8 @@ export class BoreholeLayer {
 
     const x = bh.x;
     const halfW = BOREHOLE_WIDTH / 2;
-    const top = GROUND_Y - 10;
-    const bottom = GROUND_Y + (bh.depth / 600) * MAX_DEPTH;
+    const top = getCasingTop();
+    const bottom = getCasingBottom(bh.depth);
 
     if (selected) {
       highlight.roundRect(x - halfW - 10, top - 10, BOREHOLE_WIDTH + 20, bottom - top + 20, 6);

@@ -1,6 +1,6 @@
 import { Container, Graphics } from 'pixi.js';
 import type { Borehole } from 'shared/types';
-import { COLORS, BOREHOLE_WIDTH, GROUND_Y, MAX_DEPTH } from '../constants';
+import { COLORS, BOREHOLE_WIDTH, GROUND_Y, getCasingBottom, getInnerHalfWidth } from '../constants';
 
 interface Particle {
   x: number;
@@ -79,11 +79,12 @@ export class GasParticleLayer {
     if (this.pool.length === 0) return;
 
     const p = this.pool.pop()!;
-    const bottom = GROUND_Y + (bh.depth / 600) * MAX_DEPTH;
+    const bottom = getCasingBottom(bh.depth);
     const top = GROUND_Y + 40;
+    const innerHalfW = getInnerHalfWidth();
 
     p.boreholeId = bh.id;
-    p.x = bh.x + (Math.random() - 0.5) * (BOREHOLE_WIDTH - 14);
+    p.x = bh.x + (Math.random() - 0.5) * (innerHalfW * 2 - 4);
     p.y = bottom - 20 - Math.random() * (bottom - top) * 0.4;
     p.vy = -60 - Math.random() * 80 * this.gasIntensity;
     p.size = 3 + Math.random() * 4;
@@ -100,7 +101,7 @@ export class GasParticleLayer {
     for (const bh of this.boreholes) {
       if (!bh.hasGas || bh.sealVerified) continue;
 
-      const bottom = GROUND_Y + (bh.depth / 600) * MAX_DEPTH;
+      const bottom = getCasingBottom(bh.depth);
       const source = new Graphics();
       source.circle(bh.x, bottom - 10, 10 + Math.sin(performance.now() * 0.005) * 2);
       source.fill({ color: COLORS.gas, alpha: 0.6 });

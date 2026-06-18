@@ -3,6 +3,30 @@ export const SCENE_HEIGHT = 720;
 
 export const GROUND_Y = 80;
 export const MAX_DEPTH = 600;
+export const CASING_TOP_OFFSET = 10;
+
+export const BOREHOLE_WIDTH = 40;
+export const CASING_THICKNESS = 8;
+
+export function getCasingTop(): number {
+  return GROUND_Y - CASING_TOP_OFFSET;
+}
+
+export function getCasingBottom(depthMeters: number): number {
+  return GROUND_Y + (depthMeters / 600) * MAX_DEPTH;
+}
+
+export function getInnerTop(): number {
+  return getCasingTop() + CASING_THICKNESS;
+}
+
+export function getInnerBottom(depthMeters: number): number {
+  return getCasingBottom(depthMeters) - CASING_THICKNESS;
+}
+
+export function getInnerHalfWidth(): number {
+  return BOREHOLE_WIDTH / 2 - CASING_THICKNESS;
+}
 
 export const STRATA_LAYERS = [
   { name: '表土层',   top: 0,   bottom: 120, color: 0x8b6914, noise: 0.3 },
@@ -27,6 +51,3 @@ export const COLORS = {
   selectedGlow: 0xf5a524,
   seal: 0xf59e0b,
 };
-
-export const BOREHOLE_WIDTH = 40;
-export const CASING_THICKNESS = 8;
