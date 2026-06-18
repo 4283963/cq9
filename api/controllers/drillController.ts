@@ -6,6 +6,7 @@ import {
   getSessionDetail,
   getAllSessions,
   getSessionBoreholes,
+  getSessionTiming,
 } from '../services/drillService.js';
 import type { OperationType } from '../../shared/types.js';
 
@@ -65,6 +66,16 @@ export async function getBoreholes(req: Request, res: Response): Promise<void> {
   try {
     const boreholes = getSessionBoreholes(id);
     res.json({ success: true, data: boreholes });
+  } catch (err) {
+    res.status(404).json({ success: false, error: (err as Error).message });
+  }
+}
+
+export async function getTiming(req: Request, res: Response): Promise<void> {
+  const { id } = req.params;
+  try {
+    const timing = getSessionTiming(id);
+    res.json({ success: true, data: timing });
   } catch (err) {
     res.status(404).json({ success: false, error: (err as Error).message });
   }

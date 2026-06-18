@@ -5,6 +5,7 @@ import { RockLayer } from './layers/RockLayer';
 import { BoreholeLayer } from './layers/BoreholeLayer';
 import { GasParticleLayer } from './layers/GasParticleLayer';
 import { CementLayer } from './layers/CementLayer';
+import { GasLeakLayer } from './layers/GasLeakLayer';
 
 export type BoreholeClickHandler = (boreholeId: string) => void;
 
@@ -15,6 +16,7 @@ export class DrillScene {
   private boreholeLayer: BoreholeLayer;
   private gasLayer: GasParticleLayer;
   private cementLayer: CementLayer;
+  private gasLeakLayer: GasLeakLayer;
   private state: DrillSceneState;
   private onBoreholeClick: BoreholeClickHandler | null = null;
   private tickerBound: () => void;
@@ -30,6 +32,7 @@ export class DrillScene {
     this.boreholeLayer = new BoreholeLayer();
     this.gasLayer = new GasParticleLayer();
     this.cementLayer = new CementLayer();
+    this.gasLeakLayer = new GasLeakLayer();
 
     this.tickerBound = this.tick.bind(this);
   }
@@ -46,6 +49,7 @@ export class DrillScene {
 
     this.root.addChild(this.rockLayer.container);
     this.root.addChild(this.cementLayer.container);
+    this.root.addChild(this.gasLeakLayer.container);
     this.root.addChild(this.boreholeLayer.container);
     this.root.addChild(this.gasLayer.container);
 
@@ -55,6 +59,7 @@ export class DrillScene {
     this.cementLayer.setBoreholes(this.state.boreholes);
     this.cementLayer.updateState(this.state.boreholes);
     this.gasLayer.updateState(this.state.boreholes, this.state.gasIntensity);
+    this.gasLeakLayer.updateState(this.state.boreholes);
 
     this.app.stage.eventMode = 'static';
     this.app.stage.hitArea = this.app.screen;
@@ -79,6 +84,7 @@ export class DrillScene {
     this.cementLayer.setBoreholes(state.boreholes);
     this.cementLayer.updateState(state.boreholes);
     this.gasLayer.updateState(state.boreholes, state.gasIntensity);
+    this.gasLeakLayer.updateState(state.boreholes);
   }
 
   public setBoreholeClickHandler(handler: BoreholeClickHandler | null): void {
@@ -98,6 +104,7 @@ export class DrillScene {
     const t = this.app.ticker.lastTime;
     this.gasLayer.tick(t);
     this.cementLayer.tick(t);
+    this.gasLeakLayer.tick(t);
   }
 
   public destroy(): void {
@@ -113,6 +120,7 @@ export class DrillScene {
       this.boreholeLayer.destroy();
       this.gasLayer.destroy();
       this.cementLayer.destroy();
+      this.gasLeakLayer.destroy();
       this.root.destroy({ children: true });
       this.app.destroy(false, { children: true, texture: true });
     } catch {

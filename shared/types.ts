@@ -45,6 +45,7 @@ export interface Borehole {
   casingInstalled: boolean;
   cementFilled: number;
   sealVerified: boolean;
+  gasLeakLevel: number;
 }
 
 export interface DrillSceneState {
@@ -52,6 +53,8 @@ export interface DrillSceneState {
   selectedBoreholeId: string | null;
   gasEmissionActive: boolean;
   gasIntensity: number;
+  elapsedSeconds: number;
+  sealDeadlineSeconds: number;
 }
 
 export interface SessionDetail extends DrillSession {

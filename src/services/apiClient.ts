@@ -6,6 +6,11 @@ import type {
   SessionDetail,
 } from 'shared/types';
 
+export interface SessionTiming {
+  elapsedSeconds: number;
+  sealDeadlineSeconds: number;
+}
+
 interface ApiResponse<T> {
   success: boolean;
   data?: T;
@@ -58,4 +63,8 @@ export async function listSessions(): Promise<DrillSession[]> {
 
 export async function getBoreholes(sessionId: string): Promise<Borehole[]> {
   return request<Borehole[]>(`/api/sessions/${sessionId}/boreholes`);
+}
+
+export async function getTiming(sessionId: string): Promise<SessionTiming> {
+  return request<SessionTiming>(`/api/sessions/${sessionId}/timing`);
 }

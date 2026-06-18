@@ -104,3 +104,12 @@ export function calculateGrade(totalScore: number, totalCorrect: number, totalOp
   if (ratio >= 0.5) return 'C';
   return 'D';
 }
+
+export function calculateLeakPenalty(totalLeakLevel: number): number {
+  if (totalLeakLevel <= 0.05) return 0;
+  if (totalLeakLevel <= 0.2) return -5;
+  if (totalLeakLevel <= 0.4) return -10;
+  if (totalLeakLevel <= 0.6) return -18;
+  if (totalLeakLevel <= 0.8) return -28;
+  return -40;
+}

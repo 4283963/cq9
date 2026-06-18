@@ -12,6 +12,7 @@ export const INITIAL_BOREHOLES: Borehole[] = [
     casingInstalled: false,
     cementFilled: 0,
     sealVerified: false,
+    gasLeakLevel: 0,
   },
   {
     id: 'BH-002',
@@ -24,6 +25,7 @@ export const INITIAL_BOREHOLES: Borehole[] = [
     casingInstalled: false,
     cementFilled: 0,
     sealVerified: false,
+    gasLeakLevel: 0,
   },
 ];
 

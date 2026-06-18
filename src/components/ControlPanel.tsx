@@ -91,13 +91,41 @@ export function ControlPanel() {
       </div>
 
       {selected && selected.hasGas && !selected.sealVerified && (
-        <div className="mb-4 p-3 bg-red-900/20 border border-red-500/30 rounded-lg flex items-start gap-3 animate-pulse-slow">
-          <Wind className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-          <div>
-            <div className="text-sm font-medium text-red-300">有害气体溢出警告</div>
-            <div className="text-xs text-red-400/80 font-mono">
-              气体压力 {selected.gasPressure.toFixed(1)} MPa，需立即处置
+        <div className={cn(
+          'mb-4 p-3 border rounded-lg flex items-start gap-3',
+          selected.gasLeakLevel > 0.4
+            ? 'bg-red-900/30 border-red-500/50 animate-pulse-slow'
+            : selected.gasLeakLevel > 0.05
+              ? 'bg-orange-900/20 border-orange-500/40'
+              : 'bg-red-900/20 border-red-500/30'
+        )}>
+          <Wind className={cn(
+            'w-5 h-5 flex-shrink-0 mt-0.5',
+            selected.gasLeakLevel > 0.4 ? 'text-red-400 animate-bounce' : 'text-red-400'
+          )} />
+          <div className="flex-1">
+            <div className={cn(
+              'text-sm font-medium',
+              selected.gasLeakLevel > 0.4 ? 'text-red-300' : 'text-red-300'
+            )}>
+              {selected.gasLeakLevel > 0.4
+                ? '⚠️ 严重气体泄漏！'
+                : selected.gasLeakLevel > 0.05
+                  ? '气体泄漏警告'
+                  : '有害气体溢出警告'}
             </div>
+            <div className={cn(
+              'text-xs font-mono mt-0.5',
+              selected.gasLeakLevel > 0.4 ? 'text-red-400' : 'text-red-400/80'
+            )}>
+              气体压力 {selected.gasPressure.toFixed(1)} MPa
+              {selected.gasLeakLevel > 0.05 && ` · 泄漏 ${(selected.gasLeakLevel * 100).toFixed(0)}%`}
+            </div>
+            {selected.gasLeakLevel > 0.2 && (
+              <div className="text-[10px] text-orange-400/80 mt-1">
+                请立即完成封堵与水泥注入！
+              </div>
+            )}
           </div>
         </div>
       )}
